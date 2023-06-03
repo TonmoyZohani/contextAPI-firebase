@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const Register = () => {
+  const [message, setMessage] = useState('');
 
-  const {user,createUser}= useContext(AuthContext)
+  const { user, createUser } = useContext(AuthContext);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -14,14 +15,18 @@ const Register = () => {
 
     console.log(name, email, password);
 
-    createUser(email,password).then((res)=>{
-      const loggedUser= res.user;
-      console.log(loggedUser)
-    }).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorMessage)
-    });
+    createUser(email, password)
+      .then((res) => {
+        const loggedUser = res.user;
+        setMessage('Account is created');
+        console.log(loggedUser);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setMessage('There is a problem: ' + errorMessage);
+        console.log(errorMessage);
+      });
   };
 
   return (
@@ -71,6 +76,11 @@ const Register = () => {
               </button>
             </div>
           </form>
+          {message && (
+            <div className="text-center mt-4">
+              <p className="text-sm text-gray-500">{message}</p>
+            </div>
+          )}
           <div className="text-center mt-4">
             <p className="text-sm text-gray-500">
               Already have an account?{' '}

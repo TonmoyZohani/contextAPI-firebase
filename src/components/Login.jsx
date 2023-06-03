@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const Login = () => {
+  const [message, setMessage] = useState('');
+
+  const { signUser } = useContext(AuthContext);
+
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
     console.log(email, password);
+
+    signUser(email, password)
+      .then((userCredential) => {
+        const loggedUser = userCredential.user;
+        setMessage('Login Successful');
+        console.log(loggedUser);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setMessage('There is a problem: ' + errorMessage);
+        console.log(errorMessage);
+      });
   };
 
   return (
@@ -50,6 +68,11 @@ const Login = () => {
               </button>
             </div>
           </form>
+          {message && (
+            <div className="text-center mt-4">
+              <p className="text-sm text-gray-500">{message}</p>
+            </div>
+          )}
           <div className="text-center mt-4">
             <p className="text-sm text-gray-500">
               Don't have an account?{' '}
