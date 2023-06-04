@@ -31,6 +31,22 @@ const Header = () => {
           </li>
           <li>
             <Link
+              to="/profile"
+              className="text-gray-300 hover:text-white transition duration-300 ease-in-out"
+            >
+              Profile
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/orders"
+              className="text-gray-300 hover:text-white transition duration-300 ease-in-out"
+            >
+              Orders
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/register"
               className="text-gray-300 hover:text-white transition duration-300 ease-in-out"
             >
@@ -45,7 +61,7 @@ const Header = () => {
               Login
             </Link>
           </li>
-          <li className="text-red-400">{user?.email}</li>
+          <li className="text-green-400">{user?.email}</li>
           {user && (
             <li>
               <button
